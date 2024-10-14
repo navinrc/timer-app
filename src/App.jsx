@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function App() {
   // State management
@@ -13,7 +14,7 @@ function App() {
     let timer = null;
     if (isRunning && time > 0) {
       timer = setInterval(() => {
-        setTime(prevTime => prevTime - 1);
+        setTime((prevTime) => prevTime - 1);
       }, 1000);
     } else if (time === 0) {
       setIsRunning(false); // Stop when time reaches 0
@@ -56,16 +57,16 @@ function App() {
   const handleEditSubmit = () => {
     const timeObject = formatTime();
     let newTimeInSeconds = time;
-    
+
     if (editingField === "hours") {
       newTimeInSeconds =
-        (parseInt(editValue || "0") * 3600) +
+        parseInt(editValue || "0") * 3600 +
         timeObject.minutes * 60 +
         timeObject.seconds;
     } else if (editingField === "minutes") {
       newTimeInSeconds =
         timeObject.hours * 3600 +
-        (parseInt(editValue || "0") * 60) +
+        parseInt(editValue || "0") * 60 +
         timeObject.seconds;
     } else if (editingField === "seconds") {
       newTimeInSeconds =
@@ -107,51 +108,91 @@ function App() {
           position: "relative",
         }}
       >
-        <div style={{ fontSize: "24px", color: "#ecf0f1", marginBottom: "20px" }}>
-          {editingField === "hours" ? (
-            <input
-              type="text"
-              value={editValue}
-              onChange={handleEditChange}
-              onBlur={handleEditSubmit}
-              autoFocus
-              style={{ width: "30px", textAlign: "center" }}
-            />
-          ) : (
-            <span onClick={() => handleFieldClick("hours")}>
-              {String(hours).padStart(2, "0")}
-            </span>
-          )}
-          :
-          {editingField === "minutes" ? (
-            <input
-              type="text"
-              value={editValue}
-              onChange={handleEditChange}
-              onBlur={handleEditSubmit}
-              autoFocus
-              style={{ width: "30px", textAlign: "center" }}
-            />
-          ) : (
-            <span onClick={() => handleFieldClick("minutes")}>
-              {String(minutes).padStart(2, "0")}
-            </span>
-          )}
-          :
-          {editingField === "seconds" ? (
-            <input
-              type="text"
-              value={editValue}
-              onChange={handleEditChange}
-              onBlur={handleEditSubmit}
-              autoFocus
-              style={{ width: "30px", textAlign: "center" }}
-            />
-          ) : (
-            <span onClick={() => handleFieldClick("seconds")}>
-              {String(seconds).padStart(2, "0")}
-            </span>
-          )}
+        <div style={{display: "flex", position: "center"}}>
+          <CountdownCircleTimer
+            //isPlaying={time>0}
+            duration={time}
+            colors={["#004777"]}
+            // colorsTime={[10, 6, 3, 0]}
+            onComplete={() => ({ shouldRepeat: false })}
+          ></CountdownCircleTimer>
+            <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: "24px",
+              color: "#ecf0f1",
+              textAlign: "center",
+            }}
+          >
+            {editingField === "hours" ? (
+              <input
+                type="text"
+                value={editValue}
+                onChange={handleEditChange}
+                onBlur={handleEditSubmit}
+                autoFocus
+                style={{
+                  width: "30px",
+                  textAlign: "center",
+                  background: "transparent",
+                  color: "#ecf0f1",
+                  border: "none",
+                  outline: "none",
+                }}
+              />
+            ) : (
+              <span onClick={() => handleFieldClick("hours")}>
+                {String(hours).padStart(2, "0")}
+              </span>
+            )}
+            :
+            {editingField === "minutes" ? (
+              <input
+                type="text"
+                value={editValue}
+                onChange={handleEditChange}
+                onBlur={handleEditSubmit}
+                autoFocus
+                style={{
+                  width: "30px",
+                  textAlign: "center",
+                  background: "transparent",
+                  color: "#ecf0f1",
+                  border: "none",
+                  outline: "none",
+                }}
+              />
+            ) : (
+              <span onClick={() => handleFieldClick("minutes")}>
+                {String(minutes).padStart(2, "0")}
+              </span>
+            )}
+            :
+            {editingField === "seconds" ? (
+              <input
+                type="text"
+                value={editValue}
+                onChange={handleEditChange}
+                onBlur={handleEditSubmit}
+                autoFocus
+                style={{
+                  width: "30px",
+                  textAlign: "center",
+                  background: "transparent",
+                  color: "#ecf0f1",
+                  border: "none",
+                  outline: "none",
+                }}
+              />
+            ) : (
+              <span onClick={() => handleFieldClick("seconds")}>
+                {String(seconds).padStart(2, "0")}
+              </span>
+            )}
+          </div>
         </div>
 
         <div
